@@ -1,67 +1,66 @@
 # 🧠 PR Insight Agent
-Este proyecto es un asistente basado en RAG (Retrieval-Augmented Generation) que permite:
-- Cargar el contenido de un Pull Request de GitHub
-- Analizarlo en el contexto completo del sistema
-- Hacer preguntas técnicas sobre el PR o el código base
-- Generar code reviews automáticos con trazabilidad vía Langfuse
+This project is a RAG (Retrieval-Augmented Generation) based assistant that allows you to:
+- Load the content of a GitHub Pull Request
+- Analyze it within the complete context of the system
+- Ask technical questions about the PR or the codebase
+- Generate automatic code reviews with traceability via Langfuse
 ---
-## 🚀 Requisitos
+## 🚀 Requirements
 - Python 3.10+
-- [Ollama](https://ollama.com/) corriendo localmente (`ollama run mistral`)
-- Una cuenta en [Langfuse](https://cloud.langfuse.com/) para trazabilidad
+- [Ollama](https://ollama.com/) running locally (`ollama run mistral`)
+- A [Langfuse](https://cloud.langfuse.com/) account for traceability
 ---
-## ⚙️ Instalación
+## ⚙️ Installation
 ```bash
-git clone https://github.com/tu-usuario/pr-insight-agent.git
+git clone https://github.com/your-username/pr-insight-agent.git
 cd pr-insight-agent
-# Instalar dependencias
+# Install dependencies
 pip install -r requirements.txt
-# Configurar credenciales
-cp .env.template .env  # y editar con tus claves Langfuse
+# Configure credentials
+cp .env.template .env  # and edit with your Langfuse keys
 ```
 
-## 🧪 Uso
-1. Levantar el backend
+## 🧪 Usage
+1. Start the backend
 ```bash
 uvicorn chat_api:app --reload
 ```
 
-2. Iniciar el cliente
+2. Launch the client
 ```bash
 python client.py
 ```
 
-3. Comandos disponibles
-- `load`: Cargar un Pull Request por número, usuario y repo
-- `review`: Generar una revisión técnica del PR
-- `exit`: Salir del cliente
-- Escribí cualquier pregunta técnica sobre el PR o el sistema base
+3. Available commands
+- `load`: Load a Pull Request by number, user and repo
+- `review`: Generate a technical review of the PR
+- `exit`: Exit the client
+- Type any technical question about the PR or the base system
 
-## 📦 Estructura del proyecto
+## 📦 Project Structure
 ```
 .
-├── chat_api.py          # Backend FastAPI con endpoints /ask, /load_pr, /review_pr
-├── client.py            # CLI para interactuar con el agente
-├── ingest_repo.py       # Ingesta código base y PRs a la vectorstore
-├── langfuse_config.py   # Configuración global de Langfuse
-├── prompting.py         # Prompts base y de revisión
-├── memory/              # Descarga y parseo de PRs desde GitHub
-├── cognition/           # Ingesta y embebido de código
-├── data/vectorstore/    # Base semántica persistente (autogenerada)
-├── repos/               # Archivos de PR temporales (autogenerado)
-└── .env                 # Tus claves privadas (no subir)
+├── app/chat_api.py          # FastAPI backend with /ask, /load_pr, /review_pr endpoints
+├── app/client.py            # CLI to interact with the agent
+├── app/langfuse_config.py   # Global Langfuse configuration
+├── app/prompting.py         # Base and review prompts
+├── app/memory/              # Download and parsing of PRs from GitHub
+├── cognition/           # Code ingestion and embedding
+├── data/vectorstore/    # Persistent semantic base (auto-generated)
+├── repos/               # Temporary PR files (auto-generated)
+└── .env                 # Your private keys (do not upload)
 ```
 
 ## 📊 Langfuse
-El proyecto genera trazas automáticas de cada interacción del modelo en:
+The project generates automatic traces of each model interaction at:
 https://cloud.langfuse.com
 
-Verás:
-- Prompts enviados
-- Respuestas generadas
-- Tiempo de ejecución
-- Errores y metadata adicional
+You will see:
+- Prompts sent
+- Generated responses
+- Execution time
+- Errors and additional metadata
 
-## 🛡️ Seguridad
-- No subas .env a Git.
-- No compartas tu vectorstore si contiene código privado.
+## 🛡️ Security
+- Do not upload .env to Git.
+- Do not share your vectorstore if it contains private code.

@@ -1,0 +1,29 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# VSCode
+.vscode/
+
+# dotenv
+.env
+
+# Langfuse cache or logs (si los hubiera)
+langfuse.log
+
+# Chroma vectorstore
+data/vectorstore/
+
+# Repositorios clonados
+repos/
+
+# Archivos de configuración de IDEs
+.idea/
+

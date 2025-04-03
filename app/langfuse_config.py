@@ -1,4 +1,3 @@
-# langfuse_config.py
 
 import os
 from langfuse import Langfuse

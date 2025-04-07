@@ -1,66 +1,134 @@
-# 🧠 PR Insight Agent
-This project is a RAG (Retrieval-Augmented Generation) based assistant that allows you to:
-- Load the content of a GitHub Pull Request
-- Analyze it within the complete context of the system
-- Ask technical questions about the PR or the codebase
-- Generate automatic code reviews with traceability via Langfuse
+# 🧠 Local AI Code Reviewer
+An intelligent code review assistant that runs locally using LangChain, Ollama, and ChromaDB — optimized for real pull requests and real codebases.
+
+![screenshot or demo gif here]
+
 ---
-## 🚀 Requirements
-- Python 3.10+
-- [Ollama](https://ollama.com/) running locally (`ollama run mistral`)
-- A [Langfuse](https://cloud.langfuse.com/) account for traceability
+
+## 🚀 Features
+- 🔍 **Semantic code search** with line-level references (file + line number)
+- 💬 **Local inference** using [Ollama](https://ollama.com/) + Mistral or Qwen
+- 📦 **RAG-powered insights** using LangChain + ChromaDB
+- 🧠 **Memory support** via LangGraph for contextual conversations
+- ✅ **PR-aware architecture** ready for GitHub integration
+- 🧼 **Clean codebase** following service-oriented architecture
+
 ---
-## ⚙️ Installation
-```bash
-git clone https://github.com/your-username/pr-insight-agent.git
-cd pr-insight-agent
-# Install dependencies
-pip install -r requirements.txt
-# Configure credentials
-cp .env.template .env  # and edit with your Langfuse keys
+
+## 🏗️ Architecture Overview
+```
+LocalRAG/
+├── .env
+├── .venv/
+├── .gitignore
+├── Makefile
+├── README.md
+├── requirements.txt
+├── client.py
+├── app/
+│   ├── __init__.py
+│   ├── api/
+│   │   ├── __init__.py
+│   │   ├── routers/
+│   │   │   ├── __init__.py
+│   │   │   ├── chat.py
+│   │   │   └── github.py
+│   │   └── main.py
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── config.py
+│   ├── services/
+│   │   ├── __init__.py
+│   │   ├── github/
+│   │   │   ├── __init__.py
+│   │   │   └── pr_loader.py
+│   │   ├── langchain/
+│   │   │   ├── __init__.py
+│   │   │   ├── chains.py
+│   │   │   └── prompts.py
+│   │   └── vectorstore/
+│   │       ├── __init__.py
+│   │       └── chroma.py
+│   └── models/
+│       ├── __init__.py
+│       └── schemas.py
+├── data/
+│   └── vectorstore/
+
 ```
 
-## 🧪 Usage
-1. Start the backend
+### Services
+- VectorStoreService: Handles indexing and retrieval
+- OllamaService: Local LLM client
+- GitHubService: Pull request integration
+- Memory: LangGraph nodes to manage chat history
+
+---
+
+## 🛠️ Tech Stack
+- **LangChain** — RAG, memory, embedding abstraction
+- **ChromaDB** — Vector database
+- **Ollama** — Local LLM inference (Mistral, Qwen, etc.)
+- **LangGraph** — Memory-aware multi-step conversations
+- **FastAPI** — Lightweight API server
+- **Python 3.10+**
+
+---
+
+## 📥 Getting Started
+
+### 1. Clone & Install
+```bash
+git clone https://github.com/yourusername/local-ai-code-reviewer.git
+cd local-ai-code-reviewer
+pip install -r requirements.txt
+```
+
+### 2. Start Ollama
+```bash
+ollama run mistral
+```
+Or use:
+```bash
+ollama run qwen:7b
+```
+
+### 3. Embed Your Repo
+```bash
+python ingest_repo.py
+```
+*(Make sure your repo is inside the `repos/` folder)*
+
+### 4. Launch the API
 ```bash
 uvicorn chat_api:app --reload
 ```
 
-2. Launch the client
+### 5. Ask Questions
 ```bash
 python client.py
 ```
 
-3. Available commands
-- `load`: Load a Pull Request by number, user and repo
-- `review`: Generate a technical review of the PR
-- `exit`: Exit the client
-- Type any technical question about the PR or the base system
-
-## 📦 Project Structure
+## 📍 Referencing Code with File + Line
+Each code chunk is enriched with metadata during ingestion:
 ```
-.
-├── app/chat_api.py          # FastAPI backend with /ask, /load_pr, /review_pr endpoints
-├── app/client.py            # CLI to interact with the agent
-├── app/langfuse_config.py   # Global Langfuse configuration
-├── app/prompting.py         # Base and review prompts
-├── app/memory/              # Download and parsing of PRs from GitHub
-├── cognition/           # Code ingestion and embedding
-├── data/vectorstore/    # Persistent semantic base (auto-generated)
-├── repos/               # Temporary PR files (auto-generated)
-└── .env                 # Your private keys (do not upload)
+// File: chat_api.py - Line: 47
+@app.post("/ask")
+async def ask_question(request: QuestionRequest):
 ```
+This allows the agent to ground its feedback to the exact place in the code.
 
-## 📊 Langfuse
-The project generates automatic traces of each model interaction at:
-https://cloud.langfuse.com
+## 🔮 Coming Soon
+* Web frontend (Streamlit or FastAPI + React)
+* Auto-suggested review comments
+* LLM self-evaluation for feedback quality
+* Multi-agent code review (naming, perf, security, etc.)
 
-You will see:
-- Prompts sent
-- Generated responses
-- Execution time
-- Errors and additional metadata
+## 🤝 Contributing
+Contributions welcome! Feel free to open issues, PRs, or reach out on LinkedIn.
 
-## 🛡️ Security
-- Do not upload .env to Git.
-- Do not share your vectorstore if it contains private code.
+## 📜 License
+This project is licensed under the MIT License.
+
+## 📧 Contact
+[linkedin](https://www.linkedin.com/in/sebastiandavila/)

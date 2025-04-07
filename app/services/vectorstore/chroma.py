@@ -76,10 +76,7 @@ def split_documents(documents: List[Document]) -> List[Document]:
 
             chunk_doc = Document(
                 page_content=chunk_text,
-                metadata={
-                    "source": source,
-                    "start_line": start_line
-                }
+                metadata={"source": source, "start_line": start_line},
             )
             all_chunks.append(chunk_doc)
 

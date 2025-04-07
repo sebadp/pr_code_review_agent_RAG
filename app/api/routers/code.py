@@ -7,7 +7,9 @@ from ...core.langfuse_config import langfuse
 from ...services.github.github_pr_loader import download_pr_files
 from ...services.langchain.chains import ask_graph, review_graph
 
-from ...services.vectorstore.ingest_db_scripts.ingest_one_repo import ingest_repo_from_path
+from ...services.vectorstore.ingest_db_scripts.ingest_one_repo import (
+    ingest_repo_from_path,
+)
 
 router = APIRouter()
 

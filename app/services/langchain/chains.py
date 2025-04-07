@@ -15,10 +15,7 @@ def create_rag_graph(prompt_template: ChatPromptTemplate):
 
         context = retrieve_relevant_context(question=last_question, k=5)
 
-        prompt = prompt_template.invoke({
-            "messages": messages,
-            "context": context
-        })
+        prompt = prompt_template.invoke({"messages": messages, "context": context})
 
         response = await call_ollama(prompt)
         return {"messages": [AIMessage(content=response)]}

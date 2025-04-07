@@ -8,7 +8,9 @@ from app.core.config import OLLAMA_MODEL, logger, OLLAMA_URL
 from app.core.langfuse_config import langfuse
 
 
-async def call_ollama(prompt: PromptValue, retries: int = 3, backoff: float = 1.5) -> str:
+async def call_ollama(
+    prompt: PromptValue, retries: int = 3, backoff: float = 1.5
+) -> str:
     """Call Ollama with retry logic using LangChain's OllamaLLM."""
     trace = langfuse.trace(name="ollama_call", input=prompt)
     span = trace.span(name="ollama_request")
@@ -29,10 +31,13 @@ async def call_ollama(prompt: PromptValue, retries: int = 3, backoff: float = 1.
         except Exception as e:
             logger.warning(f"[Ollama] Error: {e}")
             if attempt < retries - 1:
-                logger.info(f"[Ollama] Retrying in {backoff * (attempt + 1)} seconds...")
+                logger.info(
+                    f"[Ollama] Retrying in {backoff * (attempt + 1)} seconds..."
+                )
                 await asyncio.sleep(backoff * (attempt + 1))
             else:
                 span.end(output="FAILED", metadata={"error": str(e)})
                 raise HTTPException(
-                    status_code=502, detail="Ollama is not responding after multiple attempts."
+                    status_code=502,
+                    detail="Ollama is not responding after multiple attempts.",
                 )

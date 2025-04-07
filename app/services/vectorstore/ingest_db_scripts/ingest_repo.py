@@ -1,9 +1,15 @@
 from pathlib import Path
 
-from app.services.vectorstore.chroma import reset_vectorstore, load_source_files, split_documents, embed_and_store
+from app.services.vectorstore.chroma import (
+    reset_vectorstore,
+    load_source_files,
+    split_documents,
+    embed_and_store,
+)
 
 # Configuration
 REPO_DIR = Path("repos/")
+
 
 def main():
     if not REPO_DIR.exists():

@@ -1,6 +1,6 @@
 import sys
 from pathlib import Path
-from .ingest_repo import load_source_files, split_documents, embed_and_store
+from app.services.vectorstore.ingest_db_scripts.ingest_repo import load_source_files, split_documents, embed_and_store
 
 
 def ingest_repo_from_path(repo_path: str):

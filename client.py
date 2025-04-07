@@ -1,6 +1,8 @@
 import requests
 
-API_URL = "http://localhost:8000/ask"
+API_URL = "http://localhost:8000/api/code/ask"
+
+
 def load_pr():
     owner = input("GitHub owner: ").strip()
     repo = input("GitHub repo: ").strip()
@@ -8,11 +10,12 @@ def load_pr():
 
     try:
         payload = {"owner": owner, "repo": repo, "pr_number": int(pr_number)}
-        response = requests.post("http://localhost:8000/load_pr", json=payload)
+        response = requests.post("http://localhost:8000/api/code/load_pr", json=payload)
         response.raise_for_status()
         print(f"✅ PR loaded from {response.json()['repo_path']}")
     except Exception as e:
         print(f"❌ Failed to load PR: {e}")
+
 
 def main():
     print("🤖 Simple Ask Client")
@@ -31,10 +34,14 @@ def main():
 
         elif command.lower() == "review":
             try:
-                response = requests.post("http://localhost:8000/review_pr", json={
-                    "question": "Please review this pull request in the context of the existing codebase"})
+                response = requests.post(
+                    "http://localhost:8000/api/code/review_pr",
+                    json={
+                        "question": "Please review this pull request in the context of the existing codebase"
+                    },
+                )
                 response.raise_for_status()
-                print(f"\n--- CODE REVIEW ---\n{response.json()['review']}\n")
+                print(f"\n--- CODE REVIEW ---\n{response.json()['review'].content}\n")
             except Exception as e:
                 print(f"❌ Review failed: {e}")
             continue
@@ -45,6 +52,7 @@ def main():
             print(f"AI: {response.json()['answer']}\n")
         except Exception as e:
             print(f"❌ Request failed: {e}")
+
 
 if __name__ == "__main__":
     main()

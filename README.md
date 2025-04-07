@@ -95,13 +95,13 @@ ollama run qwen:7b
 
 ### 3. Embed Your Repo
 ```bash
-python ingest_repo.py
+make ingest
 ```
 *(Make sure your repo is inside the `repos/` folder)*
 
 ### 4. Launch the API
 ```bash
-uvicorn chat_api:app --reload
+make run
 ```
 
 ### 5. Ask Questions

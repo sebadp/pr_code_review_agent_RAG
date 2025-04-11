@@ -1,7 +1,6 @@
 # 🧠 Local AI Code Reviewer
 An intelligent code review assistant that runs locally using LangChain, Ollama, and ChromaDB — optimized for real pull requests and real codebases.
 
-![screenshot or demo gif here]
 
 ---
 
